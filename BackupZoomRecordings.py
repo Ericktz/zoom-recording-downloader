@@ -69,7 +69,7 @@ driver.get("https://zoom.us/signin")
 
 # Selecciona la opción de iniciar sesión con Google
 time.sleep(3)  # Tiempo de espera para cargar la página
-google_login_button = driver.find_element(By.XPATH, "/html/body/div[1]/div[3]/div/div[2]/div/div[2]/div/div[2]/div/div/a[3]/span")
+google_login_button = driver.find_element(By.XPATH, '//span[@class="zm-login-methods__icon google-color"]')
 google_login_button.click()
 
 # Aquí se abrirá la página de autenticación de Google
@@ -82,8 +82,8 @@ email_field.send_keys(Keys.RETURN)
 
 # Seleccionar la cuenta de Google Workspace (espera hasta que la opción esté disponible)
 time.sleep(3)
-workspace_account_xpath = "/html/body/div[1]/div[1]/div[2]/c-wiz/div/div[2]/div/div/div[1]/form/span/section/div/div/div/ul/li[1]/div/div[2]/div[1]"
-workspace_account = driver.find_element(By.XPATH, workspace_account_xpath)
+workspace_account_ID = "shadowDisambiguateSubmitOrganizational"
+workspace_account = driver.find_element(By.ID, workspace_account_ID)
 workspace_account.click()
 
 # Espera unos segundos y luego ingresa la contraseña (puede que necesites ajustar la espera)
@@ -107,7 +107,7 @@ def download_recordings(driver):
         rows = driver.find_elements(By.XPATH, "//div[contains(@class, 'table')]//tbody/tr")
         for index, row in enumerate(rows):
             Texto = row.text
-            numArchivosActual = re.search(r'(\d+) Archivos', Texto)
+            numArchivosActual = re.search(r'(\d+) (Archivos|Files)', Texto)
             print(int(numArchivosActual.group(1)))
             try:
                 # Esperar a que la suma de archivos a descargar + descargas activas sean menos de 6 antes de seguir
